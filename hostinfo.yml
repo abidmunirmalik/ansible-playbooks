@@ -1,0 +1,50 @@
+---
+- name: System Uptime Checker
+  hosts: "{{ HOST }}"
+  tasks:
+  - name: System Uptime
+    debug:
+      msg: "Uptime: {{ ansible_facts.facter_system_uptime.uptime }}"
+
+  - name: System Memory
+    debug:
+      msg: "Memory: {{ ansible_facts.facter_memorysize }}"
+
+  - name: System Swap Space
+    debug:
+      msg: "Swap(GB): {{ ansible_facts.facter_swapsize }}"
+
+  - name: System CPU(s)
+    debug:
+      msg: "CPU(s): {{ ansible_facts.facter_processorcount }}"
+  
+  - name: System Filesystem(s)
+    debug:
+      msg: "Filesystem(s): {{ ansible_facts.facter_blockdevices }}"
+
+  - name: System Network Interface(s)
+    debug:
+      msg: "Network Interface(s): {{ ansible_facts.facter_interfaces }}"
+  
+  - name: System IP Address(s)
+    debug:
+      msg: "IP Addresses: {{ ansible_facts.all_ipv4_addresses }}"
+
+  - name: System DNS Servers
+    debug:
+      msg: "DNS Name Server(s): {{ ansible_facts.dns.nameservers }}"
+  
+  - name: System Operating System
+    debug:
+      msg: "Operating System: {{ ansible_facts.facter_operatingsystem }}, Release: {{ ansible_facts.facter_operatingsystemrelease }}, Kernel: {{ ansible_facts.facter_kernelrelease }}"
+
+  - name: System Boot Device
+    debug:
+      msg: "Boot Filesystem: {{ ansible_facts.facter_partitions.sda1.filesystem }}, Mount: {{ ansible_facts.facter_partitions.sda1.mount }}"
+
+  - name: System Mounted Filesystem(s)
+    debug:
+      msg: "Mount: {{ item.device }}, Mounted On: {{ item.mount }}"
+    with_items: "{{ ansible_facts.mounts }}"
+    loop_control:
+      label: "{{ item.mount }}"

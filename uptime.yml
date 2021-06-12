@@ -1,0 +1,9 @@
+---
+- name: System Uptime Checker
+  hosts: "{{ HOST }}"
+  tasks:
+  - name: MySQL DB Hosts not rebooted since 6 months
+    debug:
+      msg: "Uptime(days): {{ (ansible_facts.uptime_seconds | int /86400) | round | int }}"
+    when: (ansible_facts.uptime_seconds/86400 | int > 180)
+...
